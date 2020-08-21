@@ -28,7 +28,7 @@ class ObsWrapper(gym.ObservationWrapper):
         self.org = env
         self.shape = shape
         channels = 2
-        self.observation_space = spaces.Box(low=0, high=1, shape=(self.shape[0], self.shape[1], channels), dtype=np.uint8)            
+        self.observation_space = spaces.Box(low=0.0, high=1.0, shape=(self.shape[0], self.shape[1], channels), dtype=np.float)            
 
     def observation(self, observation):
         import cv2
@@ -42,7 +42,6 @@ class ObsWrapper(gym.ObservationWrapper):
         compass_scaled = compass_angle / compass_angle_scale
         compass_channel = np.ones(shape=self.shape, dtype=obs.dtype) * compass_scaled
         
-        compass_scaled = compass_angle / compass_angle_scale
         obs = np.concatenate([obs[...,None], compass_channel[...,None]], axis=-1)
         #obs = np.moveaxis(obs, [0, 1, 2], [1, 2, 0])
         return obs
